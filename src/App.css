@@ -1,0 +1,114 @@
+.app {
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  padding: 18px;
+  background: #fafafa;
+  min-height: 100vh;
+}
+
+.container {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.board, .panel {
+  background: white;
+  padding: 18px;
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(12,20,40,0.06);
+}
+
+.labels {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-right: 10px;
+}
+
+.row-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 6px;
+  border: 1px solid #cfcfcf;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-weight: 700;
+  background: #fff;
+}
+
+.cells-col {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cell-row {
+  display: flex;
+  gap: 6px;
+}
+
+.cell {
+  width: 42px;
+  height: 42px;
+  border-radius: 6px;
+  border: 1px solid #cfcfcf;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 14px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.panel {
+  width: 360px;
+}
+
+.input {
+  flex: 1;
+  padding: 8px 10px;
+  font-size: 16px;
+  text-transform: uppercase;
+  border: 1px solid #cfcfcf;
+  border-radius: 8px;
+}
+
+/* ✅ Responsive */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .board {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .panel {
+    width: 100%;
+    margin-top: 16px;
+  }
+
+  .row-btn, .cell {
+    width: 36px;
+    height: 36px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .row-btn, .cell {
+    width: 28px;
+    height: 28px;
+    font-size: 11px;
+  }
+
+  .panel {
+    font-size: 14px;
+  }
+}
