@@ -1,8 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
-import bgImage from "./assets/Logo_CLB F-CSC (2).png";
 
-// Crossword mini-game (React, JavaScript) - Fully Responsive Version
-
+// Crossword mini-game với theme Pastel Bakery
 const DATA = [
   { id: 1, question: "Kỹ thuật biến dữ liệu thành dạng không đọc được nếu không có khóa giải mã?", answer: "ENCRYPTION", hl: 3 },
   { id: 2, question: "Tập hợp quy tắc/hướng dẫn bảo mật trong tổ chức gọi là gì?", answer: "POLICY", hl: 6 },
@@ -30,7 +28,6 @@ function computeGeometry(data) {
   return { centerCol, totalCols };
 }
 
-// Advanced responsive hook
 function useResponsiveLayout() {
   const [dimensions, setDimensions] = useState({
     width: typeof window !== 'undefined' ? window.innerWidth : 1024,
@@ -67,7 +64,6 @@ function useResponsiveLayout() {
   };
 }
 
-// Debounce utility
 function debounce(func, wait) {
   let timeout;
   return function executedFunction(...args) {
@@ -80,9 +76,8 @@ function debounce(func, wait) {
   };
 }
 
-// Dynamic cell size calculation with viewport consideration
 function calculateOptimalCellSize(width, height, totalCols) {
-  const availableWidth = width - 120; // Account for padding and labels
+  const availableWidth = width - 120;
   const maxCellWidth = Math.floor(availableWidth / (totalCols + 2));
   
   let baseSize;
@@ -93,7 +88,6 @@ function calculateOptimalCellSize(width, height, totalCols) {
   else if (width < 1024) baseSize = 32;
   else baseSize = 38;
 
-  // Ensure cells fit within viewport
   return Math.min(baseSize, maxCellWidth, 45);
 }
 
@@ -186,56 +180,63 @@ export default function App() {
 
   const allSolved = DATA.every((d) => stateMap[d.id].solved);
 
-  // Ultra-responsive styles with fluid scaling
   const getResponsiveStyles = () => {
     const gap = isSmallScreen ? 3 : isMobile ? 4 : isTablet ? 6 : 8;
-    const padding = isSmallScreen ? 6 : isMobile ? 8 : isTablet ? 10 : 12;
-    const borderRadius = isSmallScreen ? 6 : 8;
+    const padding = isSmallScreen ? 8 : isMobile ? 12 : isTablet ? 16 : 20;
+    const borderRadius = isSmallScreen ? 12 : 16;
 
     return {
       app: {
-  fontFamily: 'Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial',
-  padding: `${padding}px`,
-  backgroundImage: `url(${bgImage})`,   // ảnh trong public
-  backgroundSize: 'cover',
-  backgroundPosition: 'center',
-  backgroundRepeat: 'no-repeat',
-  minHeight: '100vh',
-  fontSize: isSmallScreen ? 12 : isMobile ? 14 : 16,
-  boxSizing: 'border-box',
-  overflow: 'hidden',
-},
-
-
-      header: {
-        fontSize: isSmallScreen ? 14 : isMobile ? 16 : isTablet ? 18 : 20,
-        marginBottom: padding,
-        textAlign: 'center',
-        fontWeight: 700,
-        color: '#2d3748',
-        wordBreak: 'break-word'
-      },
-     container: {
-  display: 'flex',
-  gap: `${gap * 2}px`,
-  alignItems: (isMobile && !isLandscape) ? 'stretch' : 'flex-start',
-  flexDirection: (isMobile && !isLandscape) ? 'column' : 'row',
-  maxWidth: '100%',
-  height: (isMobile && !isLandscape) ? 'auto' : `calc(100vh - ${padding * 2 + 60}px)`,
-  overflow: 'visible'
-},
-
-      board: {
-        background: 'white',
+        fontFamily: '"Be Vietnam Pro", "Roboto", "Helvetica Neue", Arial, sans-serif',
         padding: `${padding}px`,
-        borderRadius: borderRadius,
-        boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+        background: 'linear-gradient(135deg, #f0f8f7 0%, #e6f3f1 20%, #faf5f0 40%, #f4e8d6 60%, #e8f4f8 80%, #fef7ed 100%)',
+        minHeight: '100vh',
+        fontSize: isSmallScreen ? 13 : isMobile ? 15 : 16,
+        boxSizing: 'border-box',
+        overflow: 'hidden',
+        position: 'relative'
+      },
+      header: {
+        fontSize: isSmallScreen ? 18 : isMobile ? 22 : isTablet ? 28 : 32,
+        marginBottom: padding * 1.2,
+        textAlign: 'center',
+        fontWeight: 600,
+        color: '#4a7c7e',
+        wordBreak: 'break-word',
+        textShadow: '2px 2px 4px rgba(74, 124, 126, 0.15)',
+        letterSpacing: '1px'
+      },
+      subtitle: {
+        fontSize: isSmallScreen ? 11 : isMobile ? 13 : 15,
+        color: '#5a9ca0',
+        textAlign: 'center',
+        fontStyle: 'italic',
+        marginTop: -padding,
+        marginBottom: padding,
+        textShadow: '1px 1px 2px rgba(90, 156, 160, 0.1)'
+      },
+      container: {
+        display: 'flex',
+        gap: `${gap * 3}px`,
+        alignItems: (isMobile && !isLandscape) ? 'stretch' : 'flex-start',
+        flexDirection: (isMobile && !isLandscape) ? 'column' : 'row',
+        maxWidth: '100%',
+        height: (isMobile && !isLandscape) ? 'auto' : `calc(100vh - ${padding * 2 + 80}px)`,
+        overflow: 'visible'
+      },
+      board: {
+        background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(240, 248, 247, 0.9) 50%, rgba(255, 255, 255, 0.95) 100%)',
+        padding: `${padding * 1.2}px`,
+        borderRadius: borderRadius * 1.5,
+        boxShadow: '0 8px 32px rgba(74, 124, 126, 0.12), 0 4px 16px rgba(90, 156, 160, 0.08)',
         flex: 1,
         minWidth: 0,
         maxWidth: '100%',
         overflow: 'hidden',
         display: 'flex',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        border: '2px solid rgba(152, 216, 202, 0.3)',
+        backdropFilter: 'blur(10px)'
       },
       boardContent: {
         display: 'flex',
@@ -243,32 +244,35 @@ export default function App() {
         overflowY: 'hidden',
         flex: 1,
         minHeight: 0,
-        paddingBottom: gap
+        paddingBottom: gap * 1.5
       },
       labels: { 
         display: 'flex', 
         flexDirection: 'column', 
         gap: `${gap}px`, 
-        marginRight: `${gap}px`, 
+        marginRight: `${gap * 1.5}px`, 
         flexShrink: 0,
         alignItems: 'center'
       },
       rowBtn: (bg) => ({
         width: cellSize,
         height: cellSize,
-        borderRadius: Math.min(6, cellSize / 6),
-        border: '1px solid #e2e8f0',
+        borderRadius: cellSize * 0.25,
+        border: '2px solid rgba(152, 216, 202, 0.4)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         cursor: 'pointer',
-        fontWeight: 700,
+        fontWeight: 600,
         background: bg,
         fontSize: Math.max(10, Math.min(14, cellSize / 3)),
         flexShrink: 0,
-        transition: 'all 0.2s ease',
-        boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-        userSelect: 'none'
+        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+        boxShadow: '0 4px 12px rgba(74, 124, 126, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.8)',
+        userSelect: 'none',
+        color: '#4a7c7e',
+        fontFamily: 'Georgia, serif',
+        position: 'relative'
       }),
       cellsCol: { 
         display: 'flex', 
@@ -284,126 +288,155 @@ export default function App() {
       cell: (extra = {}) => ({
         width: cellSize,
         height: cellSize,
-        borderRadius: Math.min(6, cellSize / 6),
-        border: '1px solid #e2e8f0',
+        borderRadius: cellSize * 0.2,
+        border: '2px solid rgba(152, 216, 202, 0.3)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        fontWeight: 700,
+        fontWeight: 600,
         textTransform: 'uppercase',
         fontSize: Math.max(8, Math.min(14, cellSize / 3)),
         boxSizing: 'border-box',
         position: 'relative',
         flexShrink: 0,
-        transition: 'all 0.2s ease',
+        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+        fontFamily: 'Georgia, serif',
+        boxShadow: 'inset 0 2px 4px rgba(255, 255, 255, 0.8), 0 2px 8px rgba(74, 124, 126, 0.15)',
         ...extra
       }),
       panel: {
-        width: isMobile && !isLandscape ? '100%' : Math.min(360, width * 0.4),
+        width: isMobile && !isLandscape ? '100%' : Math.min(380, width * 0.4),
         maxWidth: '100%',
-        background: 'white',
-        padding: `${padding}px`,
-        borderRadius: borderRadius,
-        boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+        background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(240, 248, 247, 0.95) 50%, rgba(255, 255, 255, 0.98) 100%)',
+        padding: `${padding * 1.2}px`,
+        borderRadius: borderRadius * 1.5,
+        boxShadow: '0 8px 32px rgba(74, 124, 126, 0.15), 0 4px 16px rgba(90, 156, 160, 0.1)',
         flexShrink: 0,
         display: 'flex',
         flexDirection: 'column',
-        maxHeight: isMobile && !isLandscape ? 'auto' : `calc(100vh - ${padding * 4 + 60}px)`,
-        overflow: 'auto'
+        maxHeight: isMobile && !isLandscape ? 'auto' : `calc(100vh - ${padding * 4 + 80}px)`,
+        overflow: 'auto',
+        border: '2px solid rgba(152, 216, 202, 0.3)',
+        backdropFilter: 'blur(10px)'
       },
       questionContainer: {
         marginBottom: `${padding}px`,
-        color: '#4a5568',
-        fontSize: isSmallScreen ? 12 : 14
+        color: '#4a7c7e',
+        fontSize: isSmallScreen ? 13 : 15,
+        fontWeight: 600,
+        letterSpacing: '0.5px'
       },
       questionText: {
-        minHeight: isSmallScreen ? 48 : isMobile ? 56 : 64,
+        minHeight: isSmallScreen ? 52 : isMobile ? 60 : 68,
         marginBottom: `${padding}px`,
-        fontSize: isSmallScreen ? 13 : isMobile ? 14 : 15,
-        lineHeight: 1.4,
+        fontSize: isSmallScreen ? 14 : isMobile ? 15 : 16,
+        lineHeight: 1.5,
         wordWrap: 'break-word',
         hyphens: 'auto',
-        color: '#2d3748'
+        color: '#2f5f61',
+        fontStyle: 'italic',
+        padding: `${gap * 2}px`,
+        background: 'linear-gradient(135deg, rgba(176, 224, 230, 0.3), rgba(240, 248, 247, 0.5))',
+        borderRadius: borderRadius,
+        border: '1px solid rgba(152, 216, 202, 0.4)',
+        boxShadow: 'inset 0 2px 4px rgba(255, 255, 255, 0.8)'
       },
       timer: {
         fontWeight: 700,
         marginBottom: `${padding}px`,
-        color: '#e53e3e',
-        fontSize: isSmallScreen ? 14 : isMobile ? 16 : 18,
+        color: '#dc143c',
+        fontSize: isSmallScreen ? 16 : isMobile ? 18 : 20,
         textAlign: 'center',
-        padding: `${gap}px`,
-        background: '#fed7d7',
+        padding: `${gap * 2}px`,
+        background: 'linear-gradient(135deg, #ffe4e1 0%, #ffd1dc 100%)',
         borderRadius: borderRadius,
-        border: '1px solid #feb2b2'
+        border: '2px solid rgba(220, 20, 60, 0.2)',
+        boxShadow: '0 4px 12px rgba(220, 20, 60, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.8)',
+        fontFamily: 'Georgia, serif'
       },
       inputGroup: {
         display: 'flex',
-        gap: `${gap}px`,
+        gap: `${gap * 1.5}px`,
         flexDirection: isSmallScreen ? 'column' : 'row',
         alignItems: 'stretch',
         marginBottom: `${padding}px`
       },
       input: {
         flex: 1,
-        padding: `${padding}px ${padding + 2}px`,
+        padding: `${padding}px ${padding + 4}px`,
         fontSize: 16,
         textTransform: 'uppercase',
-        border: '2px solid #e2e8f0',
+        border: '2px solid rgba(152, 216, 202, 0.5)',
         borderRadius: borderRadius,
         minWidth: 0,
         outline: 'none',
-        transition: 'border-color 0.2s ease',
-        fontFamily: 'monospace, monospace'
+        transition: 'all 0.3s ease',
+        fontFamily: 'Georgia, serif',
+        fontWeight: 500,
+        background: 'rgba(255, 255, 255, 0.9)',
+        boxShadow: 'inset 0 2px 4px rgba(152, 216, 202, 0.1), 0 2px 8px rgba(74, 124, 126, 0.05)',
+        color: '#4a7c7e'
       },
       checkBtn: {
-        padding: `${padding}px ${padding + 4}px`,
-        background: '#3182ce',
-        color: 'white',
+        padding: `${padding}px ${padding * 1.5}px`,
+        background: 'linear-gradient(135deg, #5a9ca0 0%, #4a7c7e 100%)',
+        color: '#fff',
         border: 'none',
         borderRadius: borderRadius,
-        fontWeight: 700,
+        fontWeight: 600,
         fontSize: isSmallScreen ? 14 : 16,
         cursor: 'pointer',
-        transition: 'all 0.2s ease',
-        minWidth: isSmallScreen ? 'auto' : '80px',
-        boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+        minWidth: isSmallScreen ? 'auto' : '100px',
+        boxShadow: '0 4px 12px rgba(90, 156, 160, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3)',
+        fontFamily: 'Georgia, serif',
+        textShadow: '1px 1px 2px rgba(0, 0, 0, 0.2)'
       },
       message: {
-        minHeight: isSmallScreen ? 20 : 24,
-        fontSize: isSmallScreen ? 12 : 14,
-        color: '#4a5568',
+        minHeight: isSmallScreen ? 24 : 28,
+        fontSize: isSmallScreen ? 13 : 15,
+        color: '#4a7c7e',
         textAlign: 'center',
-        marginBottom: `${gap}px`,
-        wordWrap: 'break-word'
+        marginBottom: `${gap * 1.5}px`,
+        wordWrap: 'break-word',
+        fontStyle: 'italic',
+        fontWeight: 500
       },
       stats: {
-        color: '#718096',
-        fontSize: isSmallScreen ? 11 : 13,
+        color: '#5a9ca0',
+        fontSize: isSmallScreen ? 12 : 14,
         textAlign: 'center',
-        padding: `${gap}px`,
-        background: '#f7fafc',
+        padding: `${gap * 2}px`,
+        background: 'linear-gradient(135deg, rgba(176, 224, 230, 0.4), rgba(240, 248, 247, 0.6))',
         borderRadius: borderRadius,
-        margin: `${gap}px 0`
+        margin: `${gap}px 0`,
+        border: '1px solid rgba(152, 216, 202, 0.4)',
+        boxShadow: 'inset 0 2px 4px rgba(255, 255, 255, 0.8)',
+        fontWeight: 500
       },
       success: {
         marginTop: `${padding}px`,
-        padding: `${padding}px`,
-        background: '#c6f6d5',
+        padding: `${padding * 1.2}px`,
+        background: 'linear-gradient(135deg, #f0fff0 0%, #e6ffe6 100%)',
         borderRadius: borderRadius,
-        fontWeight: 700,
-        fontSize: isSmallScreen ? 13 : 14,
+        fontWeight: 600,
+        fontSize: isSmallScreen ? 14 : 16,
         textAlign: 'center',
-        color: '#22543d',
-        border: '1px solid #9ae6b4',
-        wordWrap: 'break-word'
+        color: '#228b22',
+        border: '2px solid rgba(34, 139, 34, 0.3)',
+        wordWrap: 'break-word',
+        boxShadow: '0 6px 20px rgba(34, 139, 34, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.8)',
+        textShadow: '1px 1px 2px rgba(34, 139, 34, 0.1)'
       },
       instruction: {
-        marginTop: `${gap}px`,
-        color: '#718096',
-        fontSize: isSmallScreen ? 10 : 12,
+        marginTop: `${gap * 1.5}px`,
+        color: '#5a9ca0',
+        fontSize: isSmallScreen ? 11 : 13,
         textAlign: 'center',
-        lineHeight: 1.3,
-        wordWrap: 'break-word'
+        lineHeight: 1.4,
+        wordWrap: 'break-word',
+        fontStyle: 'italic',
+        opacity: 0.9
       }
     };
   };
@@ -413,11 +446,18 @@ export default function App() {
   const renderLabels = () => {
     return DATA.map((d) => {
       const st = stateMap[d.id];
-      const bg = st.solved ? '#c6f6d5' : st.locked ? '#f7fafc' : '#ffffff';
+      let bg = 'linear-gradient(135deg, #fff 0%, #f0f8f7 100%)';
+      if (st.solved) bg = 'linear-gradient(135deg, #e6ffe6 0%, #b8e6d2 100%)';
+      else if (st.locked) bg = 'linear-gradient(135deg, #ffe4e1 0%, #ffd1dc 100%)';
+      
       return (
         <button
           key={d.id}
-          style={styles.rowBtn(bg)}
+          style={{
+            ...styles.rowBtn(bg),
+            transform: st.solved || st.locked ? 'scale(0.95)' : 'scale(1)',
+            opacity: st.locked ? 0.6 : 1
+          }}
           onClick={() => selectRow(d.id)}
           disabled={st.solved || st.locked}
           title={`Chọn hàng ${d.id}`}
@@ -429,95 +469,75 @@ export default function App() {
   };
 
   const renderCells = () => {
-  return DATA.map((d) => {
-    const startCol = centerCol - (d.hl - 1);
-    const rowCells = [];
-    for (let c = 0; c < totalCols; c++) {
-      if (c < startCol || c >= startCol + d.answer.length) {
-        rowCells.push(
-          <div key={`r${d.id}-c${c}`} style={styles.cell({ border: 'none', background: 'transparent' })}></div>
-        );
-      } else {
-        const idx = c - startCol;
-        const isCenter = c === centerCol;
-        const st = stateMap[d.id];
-        const letter = st.solved ? d.answer[idx] : '';
-        let bg = '#ffffff';
-        let color = '#2d3748';
+    return DATA.map((d) => {
+      const startCol = centerCol - (d.hl - 1);
+      const rowCells = [];
+      for (let c = 0; c < totalCols; c++) {
+        if (c < startCol || c >= startCol + d.answer.length) {
+          rowCells.push(
+            <div key={`r${d.id}-c${c}`} style={styles.cell({ border: 'none', background: 'transparent', boxShadow: 'none' })}></div>
+          );
+        } else {
+          const idx = c - startCol;
+          const isCenter = c === centerCol;
+          const st = stateMap[d.id];
+          const letter = st.solved ? d.answer[idx] : '';
+          let bg = 'linear-gradient(135deg, #fff 0%, #f0f8f7 100%)';
+          let color = '#4a7c7e';
 
-        if (st.solved) {
-          if (isCenter) {
-            bg = '#fef08a';
-            color = '#365314';
-          } else {
-            bg = '#c6f6d5';
-            color = '#22543d';
+          if (st.solved) {
+            if (isCenter) {
+              bg = 'linear-gradient(135deg, #b8e6d2 0%, #98d8ca 100%)';
+              color = '#2f5f61';
+            } else {
+              bg = 'linear-gradient(135deg, #e6ffe6 0%, #ccf2dc 100%)';
+              color = '#228b22';
+            }
+          } else if (st.locked) {
+            if (isCenter) {
+              bg = 'linear-gradient(135deg, #ffe4e1 0%, #ffd1dc 100%)';
+              color = '#dc143c';
+            } else {
+              bg = 'linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%)';
+              color = '#5a9ca0';
+            }
+          } else if (isCenter) {
+            bg = 'linear-gradient(135deg, #b8e6d2 0%, #98d8ca 100%)';
+            color = '#2f5f61';
           }
-        } else if (st.locked) {
-          if (isCenter) {
-            bg = '#fed7aa';
-            color = '#9a3412';
-          } else {
-            bg = '#f1f5f9';
-            color = '#64748b';
-          }
-        } else if (isCenter) {
-          bg = '#fef08a';
-          color = '#365314';
+
+          const extraStyle = d.id === currentRowId ? { 
+            border: '3px solid #5a9ca0', 
+            boxShadow: '0 0 15px rgba(90, 156, 160, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.8)',
+            transform: 'scale(1.05)'
+          } : {};
+
+          rowCells.push(
+            <div 
+              key={`r${d.id}-c${c}`} 
+              style={{...styles.cell({ background: bg, color, ...extraStyle })}}
+            >
+              {letter}
+            </div>
+          );
         }
-
-        // 🔥 thêm border đen nếu hàng đang được chọn
-        const extraStyle = d.id === currentRowId ? { border: '2px solid black' } : {};
-
-        rowCells.push(
-          <div 
-            key={`r${d.id}-c${c}`} 
-            style={styles.cell({ background: bg, color, ...extraStyle })}
-          >
-            {letter}
-          </div>
-        );
       }
-    }
-    return (
-      <div key={`row-${d.id}`} style={styles.cellRow}>
-        {rowCells}
-      </div>
-    );
-  });
-};
-
+      return (
+        <div key={`row-${d.id}`} style={styles.cellRow}>
+          {rowCells}
+        </div>
+      );
+    });
+  };
 
   return (
     <div style={styles.app}>
-      <h2 
-  style={{
-    fontSize: "clamp(1.5rem, 4vw, 3rem)", // chữ responsive
-    fontWeight: "bold",
-    textAlign: "center",
-    margin: "10px 0", // giảm khoảng trống trên/dưới
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: "10px"
-  }}
->
-  🎯 CROSS MINIGAME 🎯
-</h2>
-
-<span 
-  style={{ 
-    fontSize: "clamp(0.7rem, 2vw, 1rem)", 
-    color: "#718096", 
-    textAlign: "center",
-    display: "block",
-    marginTop: "4px"
-  }}
->
-</span>
-
-
-
+      <h1 style={styles.header}>
+        🧁 CROSSWORD MINIGAME 🧁
+      </h1>
+      <div style={styles.subtitle}>
+        Delicious puzzles baked fresh for your mind ✨
+      </div>
       
       <div style={styles.container}>
         <div style={styles.board}>
@@ -527,30 +547,30 @@ export default function App() {
           </div>
           <div style={styles.instruction}>
             {isSmallScreen ? 
-              'Chọn số → trả lời trong 20s' : 
-              'Click số hàng (1–13) để chọn → câu hỏi sẽ hiện và bắt đầu 20s đếm ngược.'
+              'Tap số → trả lời trong 20s 🍪' : 
+              'Click số hàng để chọn câu hỏi → 20 giây để trả lời 🍰'
             }
           </div>
         </div>
 
         <div style={styles.panel}>
           <div style={styles.questionContainer}>
-            {currentRowId ? `Câu hỏi ${currentRowId}:` : 'Chọn một hàng (1→13) để bắt đầu:'}
+            {currentRowId ? `🍯 Câu hỏi ${currentRowId}:` : '🎂 Chọn một hàng để bắt đầu:'}
           </div>
           
           <div style={styles.questionText}>
-            {currentRowId ? DATA.find((d) => d.id === currentRowId).question : 'Sẵn sàng thử thách kiến thức bảo mật của bạn!'}
+            {currentRowId ? DATA.find((d) => d.id === currentRowId).question : 'Chào mừng đến với clb F-CSC! Hãy chọn một số để bắt đầu thử thách nhé! 🍮'}
           </div>
           
           <div style={styles.timer}>
-            ⏱️ {runningTimerFor === currentRowId ? `${remaining}s` : '00s'}
+            ⏰ {runningTimerFor === currentRowId ? `${remaining}s` : '00s'}
           </div>
 
           <div style={styles.inputGroup}>
             <input
               style={{
                 ...styles.input,
-                ':focus': { borderColor: '#3182ce' }
+                borderColor: !currentRowId ? 'rgba(152, 216, 202, 0.3)' : 'rgba(152, 216, 202, 0.6)'
               }}
               value={inputVal}
               onChange={(e) =>
@@ -566,25 +586,27 @@ export default function App() {
               style={{
                 ...styles.checkBtn,
                 opacity: !currentRowId ? 0.6 : 1,
-                transform: !currentRowId ? 'none' : 'translateY(0)',
-                ':hover': !currentRowId ? {} : { background: '#2c5aa0' }
+                transform: !currentRowId ? 'scale(0.95)' : 'scale(1)',
+                background: !currentRowId ? 'linear-gradient(135deg, #d3d3d3 0%, #a9a9a9 100%)' : styles.checkBtn.background
               }}
             >
-              {isSmallScreen ? '✓' : 'Kiểm tra'}
+              {isSmallScreen ? '✓' : '🧁 Kiểm tra'}
             </button>
           </div>
 
           <div style={styles.message}>{message}</div>
           
           <div style={styles.stats}>
-            Đã hoàn thành: {Object.values(stateMap).filter((s) => s.solved).length} / {DATA.length} câu
+            🎯 Đã hoàn thành: {Object.values(stateMap).filter((s) => s.solved).length} / {DATA.length} câu
           </div>
 
           {allSolved && (
             <div style={styles.success}>
-              🎉 Xuất sắc! Bạn đã chinh phục tất cả!
+              🎉 Tuyệt vời! Bạn đã chinh phục tất cả các câu hỏi!
               <br />
-              <strong>Từ khóa: CYBERSECURITY</strong>
+              <strong>✨ Từ khóa bí mật: CYBERSECURITY ✨</strong>
+              <br />
+              <span style={{ fontSize: '0.9em', opacity: 0.8 }}>🧁 Chúc mừng Master Cybersecurity! 🧁</span>
             </div>
           )}
         </div>
