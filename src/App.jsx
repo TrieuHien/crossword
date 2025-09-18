@@ -122,7 +122,7 @@ export default function App() {
     setCurrentRowId(id);
     setMessage('');
     setInputVal('');
-    startTimer(20, id);
+    startTimer(45, id);
   };
 
   const startTimer = (secs, id) => {
@@ -547,8 +547,8 @@ export default function App() {
           </div>
           <div style={styles.instruction}>
             {isSmallScreen ? 
-              'Tap số → trả lời trong 20s 🍪' : 
-              'Click số hàng để chọn câu hỏi → 20 giây để trả lời 🍰'
+              'Tap số → trả lời trong 45s 🍪' : 
+              'Click số hàng để chọn câu hỏi →  45s để trả lời 🍰'
             }
           </div>
         </div>
